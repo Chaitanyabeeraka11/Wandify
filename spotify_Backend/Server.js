@@ -8,6 +8,7 @@ import songRouter from "./src/routes/SongRoute.js";
 import connectDB from "./src/config/MongoDb.js";
 import { v2 as cloudinary } from "cloudinary";
 import dotenv from "dotenv";
+import albumRouter from "./src/routes/albumRoutes.js";
 
 dotenv.config();
 
@@ -42,8 +43,9 @@ app.use((req, res, next) => {
 });
 
 app.use("/uploads", express.static(uploadsPath));
-
 app.use("/api/song", songRouter);
+app.use("/api/album", albumRouter);
+
 app.get("/", (req, res) => res.send("API working"));
 
 app.get("/debug-uploads", (req, res) => {

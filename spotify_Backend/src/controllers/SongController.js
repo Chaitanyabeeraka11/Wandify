@@ -6,7 +6,7 @@ const unlinkFile = util.promisify(fs.unlink);
 
 export const addSong = async (req, res) => {
   try {
-    const { name, album, duration } = req.body; // Include duration in the request body
+    const { name, album } = req.body; // Include duration in the request body
     const audioFile = req.files.audio[0];
     const imageFile = req.files.image[0];
 
@@ -19,6 +19,9 @@ export const addSong = async (req, res) => {
       resource_type: "image",
       folder: "song_covers",
     });
+    const duration = `${Math.floor(audioUpload.duration / 60)} : ${Math.floor(
+      audioUpload.duration % 60
+    )}`;
 
     const newSong = new Song({
       name,
@@ -55,5 +58,14 @@ export const listSongs = async (req, res) => {
     res
       .status(500)
       .json({ message: "Error listing songs", error: error.message });
+  }
+};
+
+export const removeSong = async (req, res) => {
+  try {
+    await Song.findByIdAndDelete(req.body.id);
+    res.json({ message: "Song removed successfully" });
+  } catch (error) {
+    res.json({ message: "Error removing song", error: error.message });
   }
 };

@@ -1,4 +1,8 @@
-import { addSong, listSongs } from "../controllers/SongController.js"; // Ensure the file extension is included
+import {
+  addSong,
+  listSongs,
+  removeSong,
+} from "../controllers/SongController.js"; // Ensure the file extension is included
 import express from "express";
 import upload from "../middleware/Multer.js";
 const songRouter = express.Router();
@@ -12,5 +16,6 @@ songRouter.post(
   addSong
 );
 songRouter.get("/list", listSongs);
+songRouter.post("/remove", removeSong);
 
 export default songRouter;
